@@ -44,9 +44,10 @@ public class MyList extends AbstractComposite {
         this.list = new ArrayList<>(list);
     }
     
-    public MyList(int idSurList, int idUser) {
+    public MyList(int idSurList, String titre, String des) {
         this.list = new ArrayList<AbstractComposite>();
         this.idSurList = idSurList;
-        this.idUser = idUser;
+        this.titre = titre;
+        this.des = des;
     }
 }

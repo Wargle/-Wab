@@ -102,4 +102,31 @@ public class DAO {
                     .executeUpdate();
         }
     }
+
+    public static void insertList(MyList l, String login, String pw) throws Exception{
+        try (Connection conn = DataBase.getInstance().open()) {
+            final String query = "INSERT INTO USERLIST (titre, des, iduser) VALUES (:t, :d, :id)";
+
+            int idUser = getIdUser(login, pw);
+
+            conn.createQuery(query)
+                    .addParameter("t", l.getTitre())
+                    .addParameter("d", l.getDes())
+                    .addParameter("id", idUser)
+                    .executeUpdate();
+        }
+    }
+
+    public static int getIdUser (String login, String pw) throws Exception {
+        try (Connection conn = DataBase.getInstance().open()) {
+            final String queryIdUser = "SELECT IDUSER FROM USER WHERE LOGIN=:l AND PASSWORD=:p";
+
+            int idUser = conn.createQuery(queryIdUser)
+                    .addParameter("l", login)
+                    .addParameter("p", pw)
+                    .executeScalar(Integer.class);
+
+            return idUser;
+        }
+    }
 }

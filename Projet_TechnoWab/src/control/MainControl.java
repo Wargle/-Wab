@@ -155,12 +155,14 @@ public class MainControl {
             String login = req.queryParams("login"), pw = req.queryParams("pw");
             if (DAO.canConnect(login, pw)) {
                 req.session().attribute("username", login);
+                req.session().attribute("pw", pw);
                 res.redirect("/listes");
             }
             else 
                 res.redirect("/401.html");
             return "";
         });
+
         get("/disconnect", (req, res) -> {
             req.session().removeAttribute("username");
             res.redirect("/");
@@ -170,7 +172,9 @@ public class MainControl {
         get("/listes", (req, res) -> {
             if(req.session().attribute("username") == null)
                 return convertFileToString("src/view/out/401.html");
-            return generateOutUserList("1");
+            String login = req.session().attribute("username");
+            String pw = req.session().attribute("pw");
+            return generateOutUserList(Integer.toString(DAO.getIdUser(login,pw)));
         });
 
         get("/listes/createList", (req, res) -> {
@@ -178,7 +182,15 @@ public class MainControl {
         });
 
         post("/listes/createList", (req, res) -> {
-            return "ntm";
+            int idSurList = 1;
+            String login = req.session().attribute("username");
+            String pw = req.session().attribute("pw");
+            String titre = req.queryParams("title");
+            String des = req.queryParams("des");
+            MyList l = new MyList(idSurList, titre, des);
+            DAO.insertList(l, login, pw);
+            res.redirect("/listes");
+            return "";
         });
 
         get("/listes/:idList", (req, res) -> {
@@ -202,6 +214,8 @@ public class MainControl {
             res.redirect("/");
             return "";
         });
+
+
         
         Spark.notFound((req, res) -> {
             return convertFileToString("src/view/out/404.html");
