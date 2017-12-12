@@ -130,4 +130,28 @@ public class DAO {
             return idUser;
         }
     }
+
+    public static void deleteList (int idList) throws Exception {
+        try (Connection conn = DataBase.getInstance().open()) {
+            final String queryEl = "DELETE FROM ELEMENT WHERE IDSURLIST=:id";
+            final String queryLi = "DELETE FROM USERLIST WHERE IDSURLIST=:id";
+
+            conn.createQuery(queryEl)
+                    .addParameter("id", idList)
+                    .executeUpdate();
+            conn.createQuery(queryLi)
+                    .addParameter("id", idList)
+                    .executeUpdate();
+        }
+    }
+
+    public static void deleteElem (int idElem) throws Exception {
+        try (Connection conn = DataBase.getInstance().open()) {
+            final String queryEl = "DELETE FROM ELEMENT WHERE IDELEMENT=:id";
+
+            conn.createQuery(queryEl)
+                    .addParameter("id", idElem)
+                    .executeUpdate();
+        }
+    }
 }

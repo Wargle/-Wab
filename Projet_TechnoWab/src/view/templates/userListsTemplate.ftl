@@ -15,6 +15,9 @@
     <li>
         Le liste -- id:: ${list.idSurList} de l'utilisateur ${list.idUser}
         <a href="/listes/${list.idSurList}">Click me ! senpai </a>
+        <form action="/listes/${list.idSurList}/deleteList" method="POST">
+            <input type="submit" value="supprimer"/>
+        </form>
     </li>
 </#list>
 </ul>

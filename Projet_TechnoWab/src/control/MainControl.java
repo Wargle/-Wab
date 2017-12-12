@@ -224,15 +224,33 @@ public class MainControl {
         });
 
         post ("/listes/createElem", (req, res) -> {
-            System.out.println(id.getIdList());
            String t = req.queryParams("title");
            String d = req.queryParams("des");
            Element e = new Element(t,d,id.getIdList());
            DAO.insertElement(e);
-           res.redirect("/listes");
+           res.redirect("/listes/"+id.getIdList());
            return "";
         });
 
+        post ("/listes/:idSurList/deleteList", (req, res) -> {
+            int idSurList = Integer.parseInt(req.params("idSurList"));
+            DAO.deleteList(idSurList);
+            res.redirect("/listes");
+            return "";
+        });
+
+        post ("/listes/:idSurList/:idElem/deleteElem", (req, res) -> {
+           int idElem = Integer.parseInt(req.params("idElem"));
+           String idList = req.params("idSurList");
+           DAO.deleteElem(idElem);
+           res.redirect("/listes/"+idList);
+           return "";
+        });
+
+        get ("/retour", (req, res) -> {
+           res.redirect("/listes");
+           return "";
+        });
         
         Spark.notFound((req, res) -> {
             return convertFileToString("src/view/out/404.html");
