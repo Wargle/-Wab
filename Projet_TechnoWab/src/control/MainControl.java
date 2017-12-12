@@ -19,11 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import model.DAO;
-import model.Element;
-import model.MyList;
-import model.User;
-import model.AbstractComposite;
+
+import model.*;
 import org.h2.util.IOUtils;
 import spark.Spark;
 import static spark.Spark.before;
@@ -131,7 +128,8 @@ public class MainControl {
      * @param args the command line arguments
      * @throws java.lang.Exception
      */
-    public static void main(String[] args) throws Exception {    
+    public static void main(String[] args) throws Exception {
+
         setConfiguration();
         staticFiles.externalLocation("src/view/out");
         
@@ -218,16 +216,18 @@ public class MainControl {
             return "";
         });
 
+        final IDList id = new IDList();
+
         get ("/listes/:idSurList/createElem", (req, res)-> {
+            id.setIdList(Integer.parseInt(req.params("idSurList")));
            return convertFileToString("src/view/out/createElem.html");
         });
 
         post ("/listes/createElem", (req, res) -> {
-           int idList = 7;
-            System.out.println(idList);
+            System.out.println(id.getIdList());
            String t = req.queryParams("title");
            String d = req.queryParams("des");
-           Element e = new Element(t,d,idList);
+           Element e = new Element(t,d,id.getIdList());
            DAO.insertElement(e);
            res.redirect("/listes");
            return "";
