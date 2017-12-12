@@ -3,8 +3,8 @@ package model;
 public class Element extends AbstractComposite {
 
     private int idElement;
-    private String titre;
-    private int idList;
+    private String titre, des;
+    private int idSurList;
 
     public int getIdElement() {
         return idElement;
@@ -22,19 +22,28 @@ public class Element extends AbstractComposite {
         this.titre = titre;
     }
 
-    public int getIdList() {
-        return idList;
+    public String getDes() {
+        return des;
     }
 
-    public void setIdList(int idList) {
-        this.idList = idList;
+    public void setDes(String des) {
+        this.des = des;
+    }
+
+    public int getIdSurList() {
+        return idSurList;
+    }
+
+    public void setIdSurList(int idList) {
+        this.idSurList = idList;
     }
 
     protected Element() {}
 
-    public Element(String titre, int idListd) {
+    public Element(String titre, String des, int idList) {
         this.idElement = 0;
         this.titre = titre;
-        this.idList = idListd;
+        this.des = des;
+        this.idSurList =idList;
     }
 }

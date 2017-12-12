@@ -8,8 +8,9 @@ and open the template in the editor.
     <body>
         <h2>Ajouter un nouvel élément à votre liste</h2>
         <form action="/listes/createElem" method="POST">
-            <input type="text" name="title"/>
-            <input type="text" name="des"/><br/>
+            <label for="title">Nom de l'élément :</label><input type="text" name="title" id="title"/><br/>
+            <label for="des">Description</label><br/>
+            <textarea name="des" id="des"></textarea><br/>
             <input type="submit" value="Here we go !!!"/>
         </form>
     </body>

@@ -94,7 +94,6 @@ public class MainControl {
             return writer.toString();
         }
         catch (Exception e) {
-            System.out.println(e.toString());
             return convertFileToString("src/view/out/400.html");
         }
     }
@@ -108,12 +107,13 @@ public class MainControl {
         try {
             MyList els = new MyList(DAO.getAllElementByList(idUser, idList));
             
-            if(els.list.isEmpty())
-                return generateOutUserList(idUser);
+            /*if(els.list.isEmpty())
+                return generateOutUserList(idUser);*/
             
             Map<String, Object> input = new HashMap<>();
             input.put("title", "C'est genial mais pas trop");
             input.put("list", els.list);
+            input.put("idSurList", idList);
 
             Template template = cfg.getTemplate("listTemplate.ftl");
 
@@ -122,7 +122,7 @@ public class MainControl {
             
             return writer.toString();
         }
-        catch (Exception e) { 
+        catch (Exception e) {
             return convertFileToString("src/view/out/400.html");
         }
     }
@@ -137,6 +137,7 @@ public class MainControl {
         
         before((req, res) -> {
             if(!DAO.testConnection()) {
+                System.out.println("pb de connexio a la BDD");
                 res.redirect("/500.html");
             }
         });
@@ -193,10 +194,12 @@ public class MainControl {
             return "";
         });
 
-        get("/listes/:idList", (req, res) -> {
+        get("/listes/:idSurList", (req, res) -> {
             if(req.session().attribute("username") == null)
                 return convertFileToString("src/view/out/401.html");
-            return generateOutList("1", req.params("idList"));
+            String login = req.session().attribute("username");
+            String pw = req.session().attribute("pw");
+            return generateOutList(Integer.toString(DAO.getIdUser(login,pw)), req.params("idSurList"));
         });
 
         get ("/createUser", (req, res) -> {
@@ -215,12 +218,27 @@ public class MainControl {
             return "";
         });
 
+        get ("/listes/:idSurList/createElem", (req, res)-> {
+           return convertFileToString("src/view/out/createElem.html");
+        });
+
+        post ("/listes/createElem", (req, res) -> {
+           int idList = 7;
+            System.out.println(idList);
+           String t = req.queryParams("title");
+           String d = req.queryParams("des");
+           Element e = new Element(t,d,idList);
+           DAO.insertElement(e);
+           res.redirect("/listes");
+           return "";
+        });
 
         
         Spark.notFound((req, res) -> {
             return convertFileToString("src/view/out/404.html");
         });
         Spark.internalServerError((req, res) -> {
+            System.out.println("pb interne du serveur spark");
             return convertFileToString("src/view/out/500.html");
         });
     }    

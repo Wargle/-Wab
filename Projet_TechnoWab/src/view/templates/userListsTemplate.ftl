@@ -7,6 +7,8 @@
 <header>
     <a href="/disconnect">Au revoir !</a>
 </header>
+<h1>Voici vos listes</h1><br/>
+
 <a href="/listes/createList">Ajouter une liste svp</a>
 <ul>
 <#list lists as list>

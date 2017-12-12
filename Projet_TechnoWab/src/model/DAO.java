@@ -53,26 +53,15 @@ public class DAO {
         }
     }
 
-    public static List<Element> getAllElementByList(String idUser, String idList) throws Exception{
+    public static List<Element> getAllElementByList(String idUser, String idSurList) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "SELECT idElement, e.titre, e.idList FROM ELEMENT e, LIST l, USERLIST u WHERE l.idList = e.idList AND l.idSurList = u.idSurList" 
-                    + " AND idUser = :idU AND u.idSurList = :idL";
+            final String query = "SELECT idElement, e.titre, e.idSurList FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
+                    + " AND idUser = :idU AND l.idSurList = :idL";
 
             return conn.createQuery(query)
                     .addParameter("idU", idUser)
-                    .addParameter("idL", idList)
+                    .addParameter("idL", idSurList)
                     .executeAndFetch(Element.class);
-        }
-    }
-
-    public static void insertElement(Element e) throws Exception{
-        try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "INSERT INTO ELEMENT (titre, idList) VALUES ( :idT, :idL )";
-
-            conn.createQuery(query)
-                    .addParameter("idT", e.getTitre())
-                    .addParameter("idL", e.getIdList())
-                    .executeUpdate();
         }
     }
     
@@ -113,6 +102,18 @@ public class DAO {
                     .addParameter("t", l.getTitre())
                     .addParameter("d", l.getDes())
                     .addParameter("id", idUser)
+                    .executeUpdate();
+        }
+    }
+
+    public static void insertElement(Element e) throws Exception{
+        try (Connection conn = DataBase.getInstance().open()) {
+            final String query = "INSERT INTO ELEMENT (titre, des, idSurList) VALUES ( :idT, :d, :idL )";
+
+            conn.createQuery(query)
+                    .addParameter("idT", e.getTitre())
+                    .addParameter("d", e.getDes())
+                    .addParameter("idL", e.getIdSurList())
                     .executeUpdate();
         }
     }
