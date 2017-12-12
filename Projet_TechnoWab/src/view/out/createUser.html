@@ -5,32 +5,41 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
+    <head>
+        <link rel="stylesheet" href="../CSS/createUser.css"/>
+    </head>
     <body>
         <h1>Enregistrez-vous !!</h1>
         <h2>Simple et rapide !</h2>
         <form action="/createUser" method="POST">
 
-            <label for="login">Nom d'utilisateur :</label> <input type="text" name="login" id="login"/><br/>
-            <label for="pw">Mot de passe :</label> <input type="password" name="pw" id="pw"/><br/>
-            <label for="pw2">Confirmez le mot de passe :</label> <input type="password" name="pw2" id="pw2"/><br/>
-            <label for="pw3">Retaper votre mot de passe :</label> <input type="password" name="pw3" id="pw3"/><br/>
-            <label for="pw4">Une derniere fois pour être sur :</label> <input type="password" name="pw4" id="pw4"/><br/><br/>
+            <label for="login">Nom d'utilisateur* :</label> <input type="text" name="login" id="login"/><br/><br/>
+            <label for="pw">Mot de passe* :</label> <input type="password" name="pw" id="pw"/><br/><br/>
+            <label for="pw2">Confirmez le mot de passe :</label> <input type="password" name="pw2" id="pw2"/><br/><br/>
+            <label for="pw3">Retaper votre mot de passe :</label> <input type="password" name="pw3" id="pw3"/><br/><br/>
+            <label for="pw4">Une derniere fois pour être sur :</label> <input type="password" name="pw4" id="pw4"/><br/><br/><br/>
 
-            <label for="nom">Nom :</label> <input type="text" name="nom" id="nom"/>
-            <label for="prenom">Prenom :</label> <input type="text" name="prenom" id="prenom"/><br/>
-            <label for="dateNaiss">Date de naissance :</label> <input type="date" name="dateNaiss" id="dateNaiss"/>
-            <label for="lieuNaiss">Lieu de naissance :</label> <input type="text" name="lieuNaiss" id="lieuNaiss"/><br/>
-            <label for="adresse">Adresse :</label> <input type="text" name="adresse" id="adresse"/>
-            <label for="ville">Ville :</label> <input type="text" name="ville" id="ville"/>
-            <label for="codePost">Code postal :</label> <input type="text" name="codePost" id="codePost"/><br/>
-            <label for="numTel">Numéro de telephone :</label> <input type="tel" name="numTel" id="numTel"/>
-            <label for="mail">Email :</label> <input type="email" name="mail" id="mail"/><br/><br/>
-            <label for="numSecu">Numéro de sécurité sociale :</label> <input type="text" name="numSecu" id="numSecu"/>
+            <label for="nom">Nom* :</label> <input type="text" name="nom" id="nom"/><br/>
+            <label for="prenom">Prenom* :</label> <input type="text" name="prenom" id="prenom"/><br/><br/>
+
+            <label for="dateNaiss">Date de naissance :</label> <input type="date" name="dateNaiss" id="dateNaiss"/><br/>
+            <label for="lieuNaiss">Lieu de naissance :</label> <input type="text" name="lieuNaiss" id="lieuNaiss"/><br/><br/>
+
+            <label for="adresse">Adresse :</label> <input type="text" name="adresse" id="adresse"/><br/>
+            <label for="ville">Ville :</label> <input type="text" name="ville" id="ville"/><br/>
+            <label for="codePost">Code postal :</label> <input type="text" name="codePost" id="codePost"/><br/><br/>
+
+            <label for="numTel">Numéro de telephone :</label> <input type="tel" name="numTel" id="numTel"/><br/>
+            <label for="mail">Email :</label> <input type="email" name="mail" id="mail"/><br/><br/><br/>
+
+            <label for="numSecu">Numéro de sécurité sociale :</label> <input type="text" name="numSecu" id="numSecu"/><br/>
             <label for="idDef">Identifiant défense :</label> <input type="text" name="idDef" id="idDef"/><br/><br/>
-            <label for="numCarte">Numéro de carte bancaire :</label> <input type="text" name="numCarte" id="numCarte"/>
-            <label for="dateExpi">Date d'expiration :</label> <input type="date" name="dateExpi" id="dateExpi"/>
-            <label for="crypto">Cryptogramme :</label> <input type="text" name="crypto" id="crypto"/><br/><br/>
-            <input type="submit" value="C'est parti !!!"/>
+
+            <label for="numCarte">Numéro de carte bancaire :</label> <input type="text" name="numCarte" id="numCarte"/><br/>
+            <label for="dateExpi">Date d'expiration :</label> <input type="date" name="dateExpi" id="dateExpi"/><br/>
+            <label for="crypto">Cryptogramme :</label> <input type="text" name="crypto" id="crypto"/><br/><br/><br/>
+
+            <div class="valider"><input type="submit" value="C'est parti !!!"/></div>
         </form>
     </body>
 </html>

@@ -111,6 +111,7 @@ public class MainControl {
             input.put("title", "C'est genial mais pas trop");
             input.put("list", els.list);
             input.put("idSurList", idList);
+            input.put("des", els.getDes());
 
             Template template = cfg.getTemplate("listTemplate.ftl");
 
@@ -135,7 +136,7 @@ public class MainControl {
         
         before((req, res) -> {
             if(!DAO.testConnection()) {
-                System.out.println("pb de connexio a la BDD");
+                System.out.println("pb de connexion a la BDD");
                 res.redirect("/500.html");
             }
         });

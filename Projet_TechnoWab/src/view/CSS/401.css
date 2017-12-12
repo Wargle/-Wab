@@ -1,0 +1,28 @@
+body
+{
+    background-color: firebrick;
+}
+
+a
+{
+    color: black;
+    text-decoration: none;
+    text-align: center;
+}
+
+div
+{
+    text-align: center;
+    font-size: 30px;
+}
+
+a:hover
+{
+    color: darkblue;
+    text-decoration: underline;
+}
+
+p
+{
+    margin-top: 20%;
+}

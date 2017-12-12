@@ -5,12 +5,16 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
+    <head>
+        <link rel="stylesheet" href="../CSS/createList.css"/>
+    </head>
     <body>
-        <h2>Ajouter un nouvel élément à votre liste</h2>
+        <h1>Ajouter un nouvel élément à votre liste</h1><br/>
         <form action="/listes/createElem" method="POST">
-            <label for="title">Nom de l'élément :</label><input type="text" name="title" id="title"/><br/>
+            <label for="title">Nom de l'élément </label><br/>
+            <input type="text" name="title" id="title"/><br/><br/>
             <label for="des">Description</label><br/>
-            <textarea name="des" id="des"></textarea><br/>
+            <textarea name="des" id="des" cols="100" rows="20"></textarea><br/>
             <input type="submit" value="Here we go !!!"/>
         </form>
     </body>

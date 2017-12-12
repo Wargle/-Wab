@@ -1,0 +1,38 @@
+body
+{
+    background-color: darkgray;
+}
+
+a
+{
+    color: black;
+    text-decoration: none;
+}
+
+a:hover
+{
+    color: red;
+    text-decoration: underline;
+}
+
+h1
+{
+    text-align: center;
+    border: 3px solid red;
+    border-radius: 10px;
+}
+
+form
+{
+    text-align: center;
+}
+
+input
+{
+    border-radius: 5px;
+}
+
+p
+{
+    text-align: center;
+}
