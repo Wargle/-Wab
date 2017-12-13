@@ -125,6 +125,29 @@ public class MainControl {
             return convertFileToString("src/view/out/400.html");
         }
     }
+
+    /**
+     * Permet de générer la vue d'ajout d'élément
+     * @param idList
+     * @return la vue au format String
+     */
+    private static String generateCreateElem(String idList) {
+        try {
+            Map<String, Object> input = new HashMap<>();
+            input.put("idList", idList);
+
+            Template template = cfg.getTemplate("createElem.ftl");
+
+            StringWriter writer = new StringWriter();
+            template.process(input, writer);
+
+            return  writer.toString();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            return convertFileToString("src/view/out/400.html");
+        }
+    }
     
     /**
      * @param args the command line arguments
@@ -218,20 +241,20 @@ public class MainControl {
             return "";
         });
 
-        final IDList id = new IDList();
-
         get ("/listes/:idSurList/createElem", (req, res)-> {
-            id.setIdList(Integer.parseInt(req.params("idSurList")));
-           return convertFileToString("src/view/out/createElem.html");
+            return generateCreateElem(req.params("idSurList"));
         });
 
-        post ("/listes/createElem", (req, res) -> {
-           String t = req.queryParams("title");
-           String d = req.queryParams("des");
-           Element e = new Element(t,d,id.getIdList());
-           DAO.insertElement(e);
-           res.redirect("/listes/"+id.getIdList());
-           return "";
+
+        post ("/listes/:idSurList/createElem", (req, res) -> {
+            String t = req.queryParams("title");
+            String d = req.queryParams("des");
+            String id = req.params("idSurList");
+            System.out.println(">>>>>>>>" + id);
+            Element e = new Element(t, d, Integer.parseInt(id));
+            DAO.insertElement(e);
+            res.redirect("/listes/"+id);
+            return "";
         });
 
         post ("/listes/:idSurList/deleteList", (req, res) -> {
