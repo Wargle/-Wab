@@ -250,7 +250,6 @@ public class MainControl {
             String t = req.queryParams("title");
             String d = req.queryParams("des");
             String id = req.params("idSurList");
-            System.out.println(">>>>>>>>" + id);
             Element e = new Element(t, d, Integer.parseInt(id));
             DAO.insertElement(e);
             res.redirect("/listes/"+id);
