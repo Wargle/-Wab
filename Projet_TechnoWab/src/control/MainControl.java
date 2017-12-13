@@ -133,12 +133,12 @@ public class MainControl {
     public static void main(String[] args) throws Exception {
 
         setConfiguration();
-        staticFiles.externalLocation("src/view/out");
+        staticFiles.externalLocation("src/view");
         
         before((req, res) -> {
             if(!DAO.testConnection()) {
                 System.out.println("pb de connexion a la BDD");
-                res.redirect("/500.html");
+                res.redirect("view/500.html");
             }
         });
         
@@ -160,7 +160,7 @@ public class MainControl {
                 res.redirect("/listes");
             }
             else 
-                res.redirect("/401.html");
+                res.redirect("view/401.html");
             return "";
         });
 
