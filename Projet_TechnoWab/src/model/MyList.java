@@ -4,6 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyList extends AbstractComposite {
+
+    /** une liste comprends :
+     * l'id de l'utilisateur
+     * un id de liste
+     * un titre
+     * une description*/
+
     private int idSurList, idUser;
     private String titre, des;
     public List<AbstractComposite> list;

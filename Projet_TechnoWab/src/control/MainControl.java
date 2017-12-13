@@ -157,14 +157,16 @@ public class MainControl {
 
         setConfiguration();
         staticFiles.externalLocation("src/view");
-        
+
+        /** avant toutes requêtes on vérifie la connections à la BDD */
         before((req, res) -> {
             if(!DAO.testConnection()) {
                 System.out.println("pb de connexion a la BDD");
                 res.redirect("view/500.html");
             }
         });
-        
+
+        /** page de connection */
         get("/", (req, res) -> {
             String name = req.session().attribute("username");
             if (name == null) {
@@ -175,6 +177,8 @@ public class MainControl {
                 return "";                
             }
         });
+
+        /** demande de connection */
         post("/connection", (req, res) -> {
             String login = req.queryParams("login"), pw = req.queryParams("pw");
             if (DAO.canConnect(login, pw)) {
@@ -187,12 +191,14 @@ public class MainControl {
             return "";
         });
 
+        /** deconnection --> retour à la page de connection*/
         get("/disconnect", (req, res) -> {
             req.session().removeAttribute("username");
             res.redirect("/");
             return "";
         });
-        
+
+        /** affichage des listes de l'utilisateur*/
         get("/listes", (req, res) -> {
             if(req.session().attribute("username") == null)
                 return convertFileToString("src/view/out/401.html");
@@ -201,10 +207,12 @@ public class MainControl {
             return generateOutUserList(Integer.toString(DAO.getIdUser(login,pw)));
         });
 
+        /** vue pour créer une nouvelle liste*/
         get("/listes/createList", (req, res) -> {
             return convertFileToString("src/view/out/createList.html");
         });
 
+        /** création d'une nouvelle liste*/
         post("/listes/createList", (req, res) -> {
             int idSurList = 1;
             String login = req.session().attribute("username");
@@ -217,6 +225,7 @@ public class MainControl {
             return "";
         });
 
+        /** affichage des éléments d'une liste si l'utilisateur est connecté*/
         get("/listes/:idSurList", (req, res) -> {
             if(req.session().attribute("username") == null)
                 return convertFileToString("src/view/out/401.html");
@@ -225,10 +234,12 @@ public class MainControl {
             return generateOutList(Integer.toString(DAO.getIdUser(login,pw)), req.params("idSurList"));
         });
 
+        /** vue pour créer un nouveau compte */
         get ("/createUser", (req, res) -> {
             return convertFileToString("src/view/out/createUser.html");
         });
 
+        /** création d'un nouvel utilisateur*/
         post ("/createUser", (req, res) -> {
             int id = 5;
             String n = req.queryParams("nom");
@@ -241,10 +252,12 @@ public class MainControl {
             return "";
         });
 
+        /** vue pour créer un nouvel élément */
         get ("/listes/:idSurList/createElem", (req, res)-> {
             return generateCreateElem(req.params("idSurList"));
         });
-        
+
+        /** création d'un nouvel élément */
         post ("/listes/:idSurList/createElem", (req, res) -> {
             String t = req.queryParams("title");
             String d = req.queryParams("des");
@@ -255,6 +268,7 @@ public class MainControl {
             return "";
         });
 
+        /** suppression d'un liste*/
         post ("/listes/:idSurList/deleteList", (req, res) -> {
             int idSurList = Integer.parseInt(req.params("idSurList"));
             DAO.deleteList(idSurList);
@@ -262,6 +276,7 @@ public class MainControl {
             return "";
         });
 
+        /** suppression d'un élément*/
         post ("/listes/:idSurList/:idElem/deleteElem", (req, res) -> {
            int idElem = Integer.parseInt(req.params("idElem"));
            String idList = req.params("idSurList");
@@ -270,11 +285,13 @@ public class MainControl {
            return "";
         });
 
+        /** retourne à la vue de la listes de liste*/
         get ("/retour", (req, res) -> {
            res.redirect("/listes");
            return "";
         });
-        
+
+        /** page d'erreur personnalisée*/
         Spark.notFound((req, res) -> {
             return convertFileToString("src/view/out/404.html");
         });

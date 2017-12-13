@@ -32,7 +32,8 @@ public class DAO {
             getInstance().open();
         }
     }
-    
+
+    /** permet de tester la connection à la BDD */
     public static boolean testConnection() {
         try (Connection conn = DataBase.getInstance().open()) {
             return true;
@@ -42,7 +43,8 @@ public class DAO {
             return false;
         }
     }
-    
+
+    /** récupère les liste en fonction de l'id de l'utilisateur */
     public static List<MyList> getAllListByUser(String idUser) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
             final String query = "SELECT * FROM USERLIST WHERE idUser = :idU";
@@ -53,6 +55,7 @@ public class DAO {
         }
     }
 
+    /** permets de récupérer les éléments d'une liste en fonction de son id et de celui de l'utilisateur */
     public static List<Element> getAllElementByList(String idUser, String idSurList) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
             final String query = "SELECT idElement, e.titre, e.idSurList, e.des FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
@@ -64,7 +67,8 @@ public class DAO {
                     .executeAndFetch(Element.class);
         }
     }
-    
+
+    /** autorise ou non une combinaison login/password à se connecter */
     public static boolean canConnect(String login, String pw) {
         try(Connection conn = DataBase.getInstance().open()) {
             final String query = "SELECT COUNT(*) FROM USER WHERE login = :l AND password = :p";
@@ -79,6 +83,7 @@ public class DAO {
         }
     }
 
+    /** permets d'ajouter un nouvel utilisateur en fonction du formulaire remplis */
     public static void insertUser(User u) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
             final String query = "INSERT INTO USER (nom,prenom,login,password) VALUES ( :n, :p, :l, :pa )";
@@ -92,6 +97,7 @@ public class DAO {
         }
     }
 
+    /** permets de créer une nouvelle liste */
     public static void insertList(MyList l, String login, String pw) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
             final String query = "INSERT INTO USERLIST (titre, des, iduser) VALUES (:t, :d, :id)";
@@ -106,6 +112,7 @@ public class DAO {
         }
     }
 
+    /** permets d'ajouter un nouvel élément à une liste */
     public static void insertElement(Element e) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
             final String query = "INSERT INTO ELEMENT (titre, des, idSurList) VALUES ( :idT, :d, :idL )";
@@ -118,6 +125,7 @@ public class DAO {
         }
     }
 
+    /** récupère l'id d'un utilisateur en fonction de son login et de son password */
     public static int getIdUser (String login, String pw) throws Exception {
         try (Connection conn = DataBase.getInstance().open()) {
             final String queryIdUser = "SELECT IDUSER FROM USER WHERE LOGIN=:l AND PASSWORD=:p";
@@ -131,9 +139,10 @@ public class DAO {
         }
     }
 
+    /** permets de supprimer une liste et ses éléments en fonction de son id */
     public static void deleteList (int idList) throws Exception {
         try (Connection conn = DataBase.getInstance().open()) {
-            final String queryEl = "DELETE FROM ELEMENT WHERE IDSURLIST=:id";
+            final String queryEl = "DELETE FROM ELEMENT WHERE IDSURLIST=:id"; //on supprime en premier les élément de la liste
             final String queryLi = "DELETE FROM USERLIST WHERE IDSURLIST=:id";
 
             conn.createQuery(queryEl)
@@ -145,6 +154,7 @@ public class DAO {
         }
     }
 
+    /** permets de supprimer un élément en fonction de son id */
     public static void deleteElem (int idElem) throws Exception {
         try (Connection conn = DataBase.getInstance().open()) {
             final String queryEl = "DELETE FROM ELEMENT WHERE IDELEMENT=:id";

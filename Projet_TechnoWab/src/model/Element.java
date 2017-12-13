@@ -2,6 +2,12 @@ package model;
 
 public class Element extends AbstractComposite {
 
+    /** Un élément comprends :
+     * un id d'élément
+     * un titre
+     * une description
+     * l'id de la liste à laquelle il appartient*/
+
     private int idElement;
     private String titre, des;
     private int idSurList;
