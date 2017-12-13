@@ -14,8 +14,7 @@
 <#list list as element>
     <li>
         <h4>${element.titre}</h4>
-
-        id::${element.idElement} // <b>${element.titre}</b> de la liste ${element.idSurList}
+        <p>${element.des}</p>
         <form action="/listes/${element.idSurList}/${element.idElement}/deleteElem" method="POST">
             <input type="submit" value="supprimer"/>
         </form>

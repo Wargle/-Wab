@@ -121,6 +121,7 @@ public class MainControl {
             return writer.toString();
         }
         catch (Exception e) {
+            System.out.println(e);
             return convertFileToString("src/view/out/400.html");
         }
     }

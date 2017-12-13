@@ -55,7 +55,7 @@ public class DAO {
 
     public static List<Element> getAllElementByList(String idUser, String idSurList) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "SELECT idElement, e.titre, e.idSurList FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
+            final String query = "SELECT idElement, e.titre, e.idSurList, e.des FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
                     + " AND idUser = :idU AND l.idSurList = :idL";
 
             return conn.createQuery(query)

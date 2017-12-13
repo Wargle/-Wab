@@ -14,8 +14,7 @@
 <#list lists as list>
     <li>
         <h4>${list.titre}</h4>
-        <p>${list.des}</p>
-        Le liste -- id:: ${list.idSurList} de l'utilisateur ${list.idUser}
+        <p>${list.des}</p><br/>
         <a href="/listes/${list.idSurList}">Click me ! senpai </a>
         <form action="/listes/${list.idSurList}/deleteList" method="POST">
             <input type="submit" value="supprimer"/>
