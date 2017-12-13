@@ -23,11 +23,8 @@ import java.util.Map;
 import model.*;
 import org.h2.util.IOUtils;
 import spark.Spark;
-import static spark.Spark.before;
-import static spark.Spark.get;
-import static spark.Spark.post;
+import static spark.Spark.*;
 import static spark.Spark.staticFiles;
-import static spark.route.HttpMethod.get;
 
 /**
  * Classe Main qui recupère les requêtes HTTP, les redirige et renvoi les reponses HTTP
@@ -91,7 +88,7 @@ public class MainControl {
             return writer.toString();
         }
         catch (Exception e) {
-            return convertFileToString("src/view/out/400.html");
+            return generateError("Generate Vue - Listes", "500", "Désolaiye, Désolaiye<br/><br/>" + e.toString());
         }
     }
     
@@ -121,8 +118,7 @@ public class MainControl {
             return writer.toString();
         }
         catch (Exception e) {
-            System.out.println(e);
-            return convertFileToString("src/view/out/400.html");
+            return generateError("Generate Vue - Liste", "500", "Désolaiye, Désolaiye<br/><br/>" + e.toString());
         }
     }
 
@@ -144,8 +140,26 @@ public class MainControl {
             return  writer.toString();
         }
         catch (Exception e) {
-            System.out.println(e);
-            return convertFileToString("src/view/out/400.html");
+            return generateError("Generate Vue - Ajouter Element", "500", "Désolaiye, Désolaiye<br/><br/>" + e.toString());
+        }
+    }
+
+    private static String generateError(String title, String code, String des) {
+        try {
+            Map<String, Object> input = new HashMap<>();
+            input.put("title", title);
+            input.put("code", code);
+            input.put("message", des);
+
+            Template template = cfg.getTemplate("erreur.ftl");
+
+            StringWriter writer = new StringWriter();
+            template.process(input, writer);
+
+            return  writer.toString();
+        }
+        catch (Exception e) {
+           return "Ya même un problème sur les fichiers :\'(";
         }
     }
     
@@ -161,8 +175,8 @@ public class MainControl {
         /** avant toutes requêtes on vérifie la connections à la BDD */
         before((req, res) -> {
             if(!DAO.testConnection()) {
-                System.out.println("pb de connexion a la BDD");
-                res.redirect("view/500.html");
+                Spark.halt(500, generateError("No DB", "500", "Problème BDD"));
+                return;
             }
         });
 
@@ -185,9 +199,11 @@ public class MainControl {
                 req.session().attribute("username", login);
                 req.session().attribute("pw", pw);
                 res.redirect("/listes");
+                return  "";
             }
-            else 
-                res.redirect("view/401.html");
+            else
+                //Spark.halt(400, generateError("Connexion", "400", "Problème de connection"));
+                res.redirect("https://www.youtube.com/channel/UCOLDfiIpOCKpCSeOAHNcrVA/?sub_confirmation=1");
             return "";
         });
 
@@ -201,7 +217,7 @@ public class MainControl {
         /** affichage des listes de l'utilisateur*/
         get("/listes", (req, res) -> {
             if(req.session().attribute("username") == null)
-                return convertFileToString("src/view/out/401.html");
+                Spark.halt(400, convertFileToString("src/view/out/noConnect.html"));
             String login = req.session().attribute("username");
             String pw = req.session().attribute("pw");
             return generateOutUserList(Integer.toString(DAO.getIdUser(login,pw)));
@@ -220,7 +236,12 @@ public class MainControl {
             String titre = req.queryParams("title");
             String des = req.queryParams("des");
             MyList l = new MyList(idSurList, titre, des);
-            DAO.insertList(l, login, pw);
+            try {
+                DAO.insertList(l, login, pw);
+            }
+            catch (Exception e) {
+                Spark.halt(500, generateError("Nouvelle liste", "500", "Désolaiye, abonnay vou<br/><br/>" + e.toString()));
+            }
             res.redirect("/listes");
             return "";
         });
@@ -228,7 +249,7 @@ public class MainControl {
         /** affichage des éléments d'une liste si l'utilisateur est connecté*/
         get("/listes/:idSurList", (req, res) -> {
             if(req.session().attribute("username") == null)
-                return convertFileToString("src/view/out/401.html");
+                return convertFileToString("src/view/out/noConnect.html");
             String login = req.session().attribute("username");
             String pw = req.session().attribute("pw");
             return generateOutList(Integer.toString(DAO.getIdUser(login,pw)), req.params("idSurList"));
@@ -241,14 +262,15 @@ public class MainControl {
 
         /** création d'un nouvel utilisateur*/
         post ("/createUser", (req, res) -> {
-            int id = 5;
-            String n = req.queryParams("nom");
-            String p = req.queryParams("prenom");
-            String l = req.queryParams("login");
-            String pa = req.queryParams("pw");
-            User u = new User (id,n,p,l,pa);
-            DAO.insertUser(u);
-            res.redirect("/");
+            String n = req.queryParams("nom"), p = req.queryParams("prenom"), l = req.queryParams("login"), pa = req.queryParams("pw");
+            User u = new User(n, p, l, pa);
+            try {
+                DAO.insertUser(u);
+                res.redirect("/");
+            }
+            catch (Exception e) {
+                Spark.halt(500, generateError("Inscription", "500", "Désolaiye, laisse poce blo<br/><br/>" + e.toString()));
+            }
             return "";
         });
 
@@ -263,15 +285,25 @@ public class MainControl {
             String d = req.queryParams("des");
             String id = req.params("idSurList");
             Element e = new Element(t, d, Integer.parseInt(id));
-            DAO.insertElement(e);
-            res.redirect("/listes/"+ id);
+            try {
+                DAO.insertElement(e);
+            }
+            catch (Exception ex) {
+                return generateError("Nouvel Element", "500", "Désolaiye, pense clauche\n" + ex.toString());
+            }
+            res.redirect("/listes/" + id);
             return "";
         });
 
         /** suppression d'un liste*/
         post ("/listes/:idSurList/deleteList", (req, res) -> {
             int idSurList = Integer.parseInt(req.params("idSurList"));
-            DAO.deleteList(idSurList);
+            try {
+                DAO.deleteList(idSurList);
+            }
+            catch (Exception e) {
+                return generateError("Suppression liste", "500", "Désolaiye, abonnay vou\n" + e.toString());
+            }
             res.redirect("/listes");
             return "";
         });
@@ -280,12 +312,17 @@ public class MainControl {
         post ("/listes/:idSurList/:idElem/deleteElem", (req, res) -> {
            int idElem = Integer.parseInt(req.params("idElem"));
            String idList = req.params("idSurList");
-           DAO.deleteElem(idElem);
-           res.redirect("/listes/"+idList);
+           try {
+               DAO.deleteElem(idElem);
+           }
+           catch (Exception e) {
+               Spark.halt(500, generateError("Suppression Element", "500", "Désolaiye, pense clauche<br/><br/>" + e.toString()));
+           }
+           res.redirect("/listes/" + idList);
            return "";
         });
 
-        /** retourne à la vue de la listes de liste*/
+        /** retourne à la vue de la listes des liste */
         get ("/retour", (req, res) -> {
            res.redirect("/listes");
            return "";
@@ -293,11 +330,10 @@ public class MainControl {
 
         /** page d'erreur personnalisée*/
         Spark.notFound((req, res) -> {
-            return convertFileToString("src/view/out/404.html");
+            return generateError("Not found", "404", "Désolaiye");
         });
         Spark.internalServerError((req, res) -> {
-            System.out.println("pb interne du serveur spark");
-            return convertFileToString("src/view/out/500.html");
+            return generateError("Server Internal Error", "500", "Désolaiye");
         });
     }    
 }

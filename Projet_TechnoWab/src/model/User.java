@@ -2,19 +2,10 @@ package model;
 
 public class User extends AbstractComposite {
 
-    private int idUser;
     private String nom;
     private String prenom;
     private String login;
     private String password;
-
-    public int getIdUser() {
-        return idUser;
-    }
-
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
-    }
 
     public String getNom() {
         return nom;
@@ -50,8 +41,7 @@ public class User extends AbstractComposite {
 
     public User () {}
 
-    public User (int id, String n, String p, String l, String pa) {
-        this.idUser = id;
+    public User (String n, String p, String l, String pa) {
         this.nom = n;
         this.prenom = p;
         this.login = l;

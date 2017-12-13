@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>${title}</title>
-    <link rel="stylesheet" href="../CSS/userList.css"/>
+    <link rel="stylesheet" href="../css/userList.css"/>
 </head>
 <body>
 <a href="/retour"><img src="../image/retour.png" alt="retour" width="50" height="50"></a>
