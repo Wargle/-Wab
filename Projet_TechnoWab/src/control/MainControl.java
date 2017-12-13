@@ -244,15 +244,14 @@ public class MainControl {
         get ("/listes/:idSurList/createElem", (req, res)-> {
             return generateCreateElem(req.params("idSurList"));
         });
-
-
+        
         post ("/listes/:idSurList/createElem", (req, res) -> {
             String t = req.queryParams("title");
             String d = req.queryParams("des");
             String id = req.params("idSurList");
             Element e = new Element(t, d, Integer.parseInt(id));
             DAO.insertElement(e);
-            res.redirect("/listes/"+id);
+            res.redirect("/listes/"+ id);
             return "";
         });
 
