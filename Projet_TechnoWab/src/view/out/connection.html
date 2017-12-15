@@ -9,17 +9,19 @@ and open the template in the editor.
         <link href="../css/connection.css" rel="stylesheet"/>
     </head>
     <body>
+    <img src="../image/eclair.png" id="ecl1"/>
+    <img src="../image/eclair.png" id="ecl2"/>
     <h1>Connectez-vous ! C'est un ordre !</h1>
         <form action="/connection" method="POST">
             <label for="login">Nom d'utilisateur</label><br/>
-            <input type="text" name="login" id="login"/><br/>
+            <input type="text" name="login" id="login"/><br/><br/>
             <label for="pw">Mot de passe</label><br/>
-            <input type="password" name="pw" id="pw"/><br/>
-            <input type="submit" value="C'est parti !!!"/><br/><br/><br/>
+            <input type="password" name="pw" id="pw"/><br/><br/>
+            <input type="submit" value="C'est parti !!!" id="bouton"/><br/><br/><br/>
         </form>
 
         <p>
-            Pas encore chez nous ?
+            Pas encore chez nous ?<br/>
         <a href="/createUser">Rejoins nous vite !</a>
         </p>
     </body>

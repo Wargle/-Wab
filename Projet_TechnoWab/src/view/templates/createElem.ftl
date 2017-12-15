@@ -13,9 +13,9 @@ and open the template in the editor.
     <form action="/listes/${idList}/createElem" method="POST">
         <label for="title">Nom de l'élément </label><br/>
         <input type="text" name="title" id="title"/><br/><br/>
-        <label for="des">Description</label><br/>
+        <label for="des">Description :</label><br/>
         <textarea name="des" id="des" cols="100" rows="20"></textarea><br/>
-        <input type="image" src="../../image/plus.png" alt="Submit" width="70" height="70"/>
+        <input type="image" src="../../image/plus.png" alt="Submit" width="70" height="70" id="valid"/>
     </form>
     </body>
 </html>

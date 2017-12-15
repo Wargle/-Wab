@@ -1,13 +1,15 @@
 body
 {
     background-color: darkgray;
+    font-family: Arial;
 }
 
 h1
 {
+    font-family: "Bauhaus 93";
     text-align: center;
-    border: 3px solid red;
-    border-radius: 10px;
+    background-image: radial-gradient(circle at center, white, darkgrey);
+    padding: 6px 0 6px 0;
 }
 
 h2
@@ -25,7 +27,25 @@ input
     border-radius: 5px;
 }
 
-.valider
+#valider
 {
-    text-indent: 20%;
+    border-radius:12px 0 12px 0;
+    background: #478bf9;
+    border:none;
+    color:#fff;
+    font:bold 12px Verdana;
+    padding:6px 10px 6px 10px;
+}
+
+#valider:hover
+{
+    box-shadow: 6px 6px 0px black;
+}
+
+#ecl1
+{
+    position: absolute;
+    right: 1%;
+    top: 5%;
+
 }

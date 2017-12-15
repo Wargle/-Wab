@@ -5,24 +5,26 @@
     <link rel="stylesheet" href="../css/userList.css"/>
 </head>
 <body>
+<img src="../image/eclair.png" id="ecl1"/>
 <header>
-    <a href="/disconnect" onmouseover="EvalSoundHorse()"><img src="../image/deco.png" alt="deconnexion" width="50" height="50"/></a>
+    <a href="/disconnect" onmouseover="EvalSoundHorse()"><img src="../image/deco.png" alt="deconnexion" width="50" height="50" class="img"/></a>
 </header>
 <h1>Voici vos listes</h1><br/>
 
-<a href="/listes/createList" onmouseover="EvalSoundAh()"><img src="../image/plus.png" alt="ajouter liste" width="50" height="50"/></a>
+<a href="/listes/createList" onmouseover="EvalSoundAh()"><img src="../image/plus.png" alt="ajouter liste" width="50" height="50" class="img"/></a>
 <ul>
 <#list lists as list>
     <li>
         <h4>${list.titre}</h4>
         <p>${list.des}</p>
-        <a href="/listes/${list.idSurList}"><img src="../image/fleche.png" alt="click me" width="50" height="50"> </a>
+        <a href="/listes/${list.idSurList}"><img src="../image/fleche.png" alt="click me" width="50" height="50" class="img"> </a>
         <form action="/listes/${list.idSurList}/deleteList" method="POST">
-            <input type="image" src="../image/delete.png" alt="Submit" width="50" height="50"/>
+            <input type="image" src="../image/delete.png" alt="Submit" width="50" height="50" class="img"/>
         </form>
     </li>
 </#list>
 </ul>
+
 <script>
     function EvalSoundHorse() {
         var audio = new Audio('../sound/horse.mp3');
