@@ -1,6 +1,7 @@
 body
 {
     background-color: firebrick;
+    font-family: Arial;
 }
 
 a
@@ -25,4 +26,13 @@ a:hover
 p
 {
     margin-top: 20%;
+}
+
+#att
+{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    right: 43%;
+    top: 4%;
 }
