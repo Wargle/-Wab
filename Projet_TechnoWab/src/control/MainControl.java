@@ -144,6 +144,41 @@ public class MainControl {
         }
     }
 
+    private static String generateModifList(String idList) {
+        try {
+            Map<String, Object> input = new HashMap<>();
+            input.put("idList", idList);
+
+            Template template = cfg.getTemplate("modifList.ftl");
+
+            StringWriter writer = new StringWriter();
+            template.process(input, writer);
+
+            return  writer.toString();
+        }
+        catch (Exception e) {
+            return generateError("Generate Vue - Modification Liste", "500", "Désolaiye, Désolaiye<br/><br/>" + e.toString());
+        }
+    }
+
+    private static String generateModifElem(String idList, String idElem) {
+        try {
+            Map<String, Object> input = new HashMap<>();
+            input.put("idElem", idElem);
+            input.put("idList", idList);
+
+            Template template = cfg.getTemplate("modifElem.ftl");
+
+            StringWriter writer = new StringWriter();
+            template.process(input, writer);
+
+            return  writer.toString();
+        }
+        catch (Exception e) {
+            return generateError("Generate Vue - Modification element", "500", "Désolaiye, Désolaiye<br/><br/>" + e.toString());
+        }
+    }
+
     private static String generateError(String title, String code, String des) {
         try {
             Map<String, Object> input = new HashMap<>();
@@ -326,6 +361,43 @@ public class MainControl {
         get ("/retour", (req, res) -> {
            res.redirect("/listes");
            return "";
+        });
+
+        get ("/listes/:idsurList/modifList", (req,res) -> {
+            return generateModifList(req.params("idSurList"));
+        });
+
+        post ("/listes/:idList/modifList", (req, res) -> {
+            int idList = Integer.parseInt(req.params("idList"));
+            String nvTitre = req.queryParams("titre");
+            String nvDes = req.queryParams("descrip");
+            try {
+                DAO.modifList(idList, nvTitre, nvDes);
+            }
+            catch (Exception e) {
+                return generateError("Modification liste", "500", "Impossible de modifier\n" + e.toString());
+            }
+            res.redirect("/listes");
+            return "";
+        });
+
+        get ("/listes/:idsurList/:idElem/modifElem", (req,res) -> {
+            return generateModifElem(req.params("idSurList"), req.params("idElem"));
+        });
+
+        post ("/listes/:idList/:idElem/modifElem", (req, res) -> {
+            int idList = Integer.parseInt(req.params("idList"));
+            int idElem = Integer.parseInt(req.params("idElem"));
+            String nvTitre = req.queryParams("titre");
+            String nvDes = req.queryParams("descrip");
+            try {
+                DAO.modifElem(idElem, nvTitre, nvDes);
+            }
+            catch (Exception e) {
+                return generateError("Modification Element", "500", "Impossible de modifier\n" + e.toString());
+            }
+            res.redirect("/listes/"+idList);
+            return "";
         });
 
         /** page d'erreur personnalisée*/

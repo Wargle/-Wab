@@ -164,4 +164,26 @@ public class DAO {
                     .executeUpdate();
         }
     }
+
+    public static void modifList (int idList, String nvTitre, String nvDes) throws Exception {
+        try (Connection conn = DataBase.getInstance().open()) {
+            final String query = "UPDATE USERLIST SET TITRE=:nt, DES=:nd WHERE IDSURLIST=:id";
+            conn.createQuery(query)
+                    .addParameter("nt", nvTitre)
+                    .addParameter("nd", nvDes)
+                    .addParameter("id", idList)
+                    .executeUpdate();
+        }
+    }
+
+    public static void modifElem (int idElem, String nvTitre, String nvDes) throws Exception {
+        try (Connection conn = DataBase.getInstance().open()) {
+            final String query = "UPDATE ELEMENT SET TITRE=:nt, DES=:nd WHERE IDELEMENT=:id";
+            conn.createQuery(query)
+                    .addParameter("nt", nvTitre)
+                    .addParameter("nd", nvDes)
+                    .addParameter("id", idElem)
+                    .executeUpdate();
+        }
+    }
 }

@@ -17,6 +17,7 @@
     <li>
         <h4>${element.titre}</h4>
         <p>${element.des}</p>
+        <a href="/listes/${element.idSurList}/${element.idElement}/modifElem"><img src="../image/modifier.png" alt="click me" width="50" height="50" class="img"> </a>
         <form action="/listes/${element.idSurList}/${element.idElement}/deleteElem" method="POST">
             <input type="image" src="../image/delete.png" alt="Submit" width="50" height="50" class="img"/>
         </form>
