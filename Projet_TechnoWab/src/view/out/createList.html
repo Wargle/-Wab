@@ -10,10 +10,11 @@ and open the template in the editor.
     </head>
     <body>
         <h1>Créez une super liste !!!</h1><br/><br/>
+        <a href="/retour"><img src="../image/annuler.png" alt="annuler" width="50" height="50" class="img"></a>
         <form action="/listes/createList" method="POST">
-            <label for="title">Titre :</label><input type="text" name="title" id="title"/><br/><br/><br/>
+            <label for="title">Titre :</label><input type="text" name="title" id="title" placeholder="Votre super titre"/><br/><br/><br/>
             <label for="des">Description :</label><br/>
-            <textarea name="des" id="des" cols="100" rows="20"></textarea><br/><br/>
+            <textarea name="des" id="des" cols="100" rows="20" placeholder="Votre super description"></textarea><br/><br/>
             <input type="image" src="../image/plus.png" alt="Submit" width="70" height="70" id="valid"/>
         </form>
     </body>

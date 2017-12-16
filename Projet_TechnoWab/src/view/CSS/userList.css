@@ -24,6 +24,11 @@ h1
     padding: 6px 0 6px 0;
 }
 
+h4
+{
+    font-size: 20px;
+}
+
 li
 {
     background-image: linear-gradient(cornflowerblue, white);
@@ -36,7 +41,7 @@ li
 
 .img:hover
 {
-    box-shadow: 5px 5px 0 white;
+    opacity: 0.5;
 }
 
 #ecl1

@@ -6,7 +6,7 @@
 </head>
 <body>
 <img src="../image/eclair.png" id="ecl1"/>
-<a href="/retour"><img src="../image/retour.png" alt="retour" width="50" height="50" class="img"></a>
+<a href="/retour"><img src="../../image/retour.png" alt="retour" width="50" height="50" class="img"></a>
 
 <h1>${title}</h1>
 
