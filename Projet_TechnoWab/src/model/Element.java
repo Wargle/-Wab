@@ -9,7 +9,7 @@ public class Element extends AbstractComposite {
      * l'id de la liste à laquelle il appartient*/
 
     private int idElement;
-    private String titre, des;
+    private String titre, des, dateCrea, dateModif;
     private int idSurList;
 
     public int getIdElement() {
@@ -44,12 +44,22 @@ public class Element extends AbstractComposite {
         this.idSurList = idList;
     }
 
+    public String getDateCrea() { return dateCrea; }
+
+    public void setDateCrea(String dateCrea) { this.dateCrea = dateCrea; }
+
+    public String getDateModif() { return dateModif; }
+
+    public void setDateModif(String dateModif) { this.dateModif = dateModif; }
+
     protected Element() {}
 
-    public Element(String titre, String des, int idList) {
+    public Element(String titre, String des, int idList, String dateCrea, String dateModif) {
         this.idElement = 0;
         this.titre = titre;
         this.des = des;
         this.idSurList =idList;
+        this.dateCrea = dateCrea;
+        this.dateModif = dateModif;
     }
 }

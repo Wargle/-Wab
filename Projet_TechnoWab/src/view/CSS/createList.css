@@ -37,3 +37,8 @@ textarea
     opacity: 0.5;
 }
 
+#dateCrea, #dateModif
+{
+    visibility: hidden;
+}
+

@@ -13,7 +13,7 @@
 <a href="/listes/${idSurList}/createElem"><img src="../image/plus.png" alt="ajouter liste" width="50" height="50" class="img"/></a><br/>
 
 <ul>
-<#list list as element>
+<#list els as element>
     <li>
         <h4>${element.titre}</h4>
         <p>${element.des}</p>
@@ -21,6 +21,9 @@
         <form action="/listes/${element.idSurList}/${element.idElement}/deleteElem" method="POST">
             <input type="image" src="../image/delete.png" alt="Submit" width="50" height="50" class="img"/>
         </form>
+        <div id="dateCrea">Date de création : ${element.dateCrea}</div>
+        <div id="dateModif">Date de modification : ${element.dateModif}</div>
+
     </li>
 </#list>
 </ul>

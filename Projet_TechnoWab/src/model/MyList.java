@@ -12,7 +12,7 @@ public class MyList extends AbstractComposite {
      * une description*/
 
     private int idSurList, idUser;
-    private String titre, des;
+    private String titre, des, dateCrea, dateModif;
     public List<AbstractComposite> list;
 
     public int getIdSurList() {
@@ -47,14 +47,23 @@ public class MyList extends AbstractComposite {
         this.des = des;
     }
 
+    public String getDateCrea() { return dateCrea; }
+
+    public void setDateCrea(String dateCrea) { this.dateCrea = dateCrea; }
+
+    public String getDateModif() { return dateModif; }
+
+
     public MyList(List<Element> list) {
         this.list = new ArrayList<>(list);
     }
     
-    public MyList(int idSurList, String titre, String des) {
+    public MyList(int idSurList, String titre, String des, String dateCrea, String dateModif) {
         this.list = new ArrayList<AbstractComposite>();
         this.idSurList = idSurList;
         this.titre = titre;
         this.des = des;
+        this.dateCrea = dateCrea;
+        this.dateModif = dateModif;
     }
 }

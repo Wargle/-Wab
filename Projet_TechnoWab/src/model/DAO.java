@@ -58,7 +58,7 @@ public class DAO {
     /** permets de récupérer les éléments d'une liste en fonction de son id et de celui de l'utilisateur */
     public static List<Element> getAllElementByList(String idUser, String idSurList) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "SELECT idElement, e.titre, e.idSurList, e.des FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
+            final String query = "SELECT idElement, e.titre, e.idSurList, e.des, e.dateCrea, e.dateModif FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
                     + " AND idUser = :idU AND l.idSurList = :idL";
 
             return conn.createQuery(query)
@@ -100,7 +100,7 @@ public class DAO {
     /** permets de créer une nouvelle liste */
     public static void insertList(MyList l, String login, String pw) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "INSERT INTO USERLIST (titre, des, iduser) VALUES (:t, :d, :id)";
+            final String query = "INSERT INTO USERLIST (titre, des, iduser, dateCrea, dateModif) VALUES (:t, :d, :id, :dc, :dm)";
 
             int idUser = getIdUser(login, pw);
 
@@ -108,6 +108,8 @@ public class DAO {
                     .addParameter("t", l.getTitre())
                     .addParameter("d", l.getDes())
                     .addParameter("id", idUser)
+                    .addParameter("dc", l.getDateCrea())
+                    .addParameter("dm", l.getDateModif())
                     .executeUpdate();
         }
     }
@@ -115,12 +117,14 @@ public class DAO {
     /** permets d'ajouter un nouvel élément à une liste */
     public static void insertElement(Element e) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "INSERT INTO ELEMENT (titre, des, idSurList) VALUES ( :idT, :d, :idL )";
+            final String query = "INSERT INTO ELEMENT (titre, des, idSurList, dateCrea, dateModif) VALUES ( :idT, :d, :idL, :dc, :dm )";
 
             conn.createQuery(query)
                     .addParameter("idT", e.getTitre())
                     .addParameter("d", e.getDes())
                     .addParameter("idL", e.getIdSurList())
+                    .addParameter("dc", e.getDateCrea())
+                    .addParameter("dm", e.getDateModif())
                     .executeUpdate();
         }
     }
@@ -165,24 +169,28 @@ public class DAO {
         }
     }
 
-    public static void modifList (int idList, String nvTitre, String nvDes) throws Exception {
+    /** permets de modifier le titre et la description d'une liste*/
+    public static void modifList (int idList, String nvTitre, String nvDes, String dateModif) throws Exception {
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "UPDATE USERLIST SET TITRE=:nt, DES=:nd WHERE IDSURLIST=:id";
+            final String query = "UPDATE USERLIST SET TITRE=:nt, DES=:nd, DATEMODIF=:dm WHERE IDSURLIST=:id";
             conn.createQuery(query)
                     .addParameter("nt", nvTitre)
                     .addParameter("nd", nvDes)
                     .addParameter("id", idList)
+                    .addParameter("dm", dateModif)
                     .executeUpdate();
         }
     }
 
-    public static void modifElem (int idElem, String nvTitre, String nvDes) throws Exception {
+    /** permets de modifier le nom er la description d'un élément*/
+    public static void modifElem (int idElem, String nvTitre, String nvDes, String dateModif) throws Exception {
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "UPDATE ELEMENT SET TITRE=:nt, DES=:nd WHERE IDELEMENT=:id";
+            final String query = "UPDATE ELEMENT SET TITRE=:nt, DES=:nd, DATEMODIF=:dm WHERE IDELEMENT=:id";
             conn.createQuery(query)
                     .addParameter("nt", nvTitre)
                     .addParameter("nd", nvDes)
                     .addParameter("id", idElem)
+                    .addParameter("dm", dateModif)
                     .executeUpdate();
         }
     }

@@ -16,12 +16,15 @@
 <#list lists as list>
     <li>
         <h4>${list.titre}</h4>
-        <p>${list.des}</p>
+        <p>${list.des} </p>
+
         <a href="/listes/${list.idSurList}"><img src="../image/fleche.png" alt="click me" width="50" height="50" class="img"> </a>
         <a href="/listes/${list.idSurList}/modifList"><img src="../image/modifier.png" alt="click me" width="50" height="50" class="img"> </a>
         <form action="/listes/${list.idSurList}/deleteList" method="POST">
             <input type="image" src="../image/delete.png" alt="Submit" width="50" height="50" class="img"/>
         </form>
+        <div id="dateCrea">Date de création : ${list.dateCrea}</div>
+        <div id="dateModif">Date de modification : ${list.dateModif}</div>
     </li>
 </#list>
 </ul>

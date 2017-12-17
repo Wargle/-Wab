@@ -52,4 +52,12 @@ li
 
 }
 
+#dateCrea, #dateModif
+{
+    font-size: 10px;
+    font-family: Calibri;
+    text-align: right;
+    padding-right: 10px;
+}
+
 

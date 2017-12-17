@@ -99,16 +99,12 @@ public class MainControl {
      */
     private static String generateOutList(String idUser, String idList) {
         try {
-            MyList els = new MyList(DAO.getAllElementByList(idUser, idList));
-            
-            /*if(els.list.isEmpty())
-                return generateOutUserList(idUser);*/
-            
+            List<Element> el = DAO.getAllElementByList(idUser, idList);
+
             Map<String, Object> input = new HashMap<>();
             input.put("title", "C'est genial mais pas trop");
-            input.put("list", els.list);
+            input.put("els", el);
             input.put("idSurList", idList);
-            input.put("des", els.getDes());
 
             Template template = cfg.getTemplate("listTemplate.ftl");
 
@@ -118,7 +114,7 @@ public class MainControl {
             return writer.toString();
         }
         catch (Exception e) {
-            return generateError("Generate Vue - Liste", "500", "Désolaiye, Désolaiye<br/><br/>" + e.toString());
+            return generateError("Generate Vue - Liste element", "500", "Désolaiye, Désolaiye<br/><br/>" + e.toString());
         }
     }
 
@@ -270,7 +266,8 @@ public class MainControl {
             String pw = req.session().attribute("pw");
             String titre = req.queryParams("title");
             String des = req.queryParams("des");
-            MyList l = new MyList(idSurList, titre, des);
+            String dateCrea = req.queryParams("dateCrea");
+            MyList l = new MyList(idSurList, titre, des, dateCrea, dateCrea);
             try {
                 DAO.insertList(l, login, pw);
             }
@@ -319,7 +316,8 @@ public class MainControl {
             String t = req.queryParams("title");
             String d = req.queryParams("des");
             String id = req.params("idSurList");
-            Element e = new Element(t, d, Integer.parseInt(id));
+            String dateCrea = req.queryParams("dateCrea");
+            Element e = new Element(t, d, Integer.parseInt(id), dateCrea, dateCrea);
             try {
                 DAO.insertElement(e);
             }
@@ -363,16 +361,19 @@ public class MainControl {
            return "";
         });
 
+        /** retourne le vue pour modiier une liste*/
         get ("/listes/:idsurList/modifList", (req,res) -> {
             return generateModifList(req.params("idSurList"));
         });
 
+        /** Modification d'une liste*/
         post ("/listes/:idList/modifList", (req, res) -> {
             int idList = Integer.parseInt(req.params("idList"));
             String nvTitre = req.queryParams("titre");
             String nvDes = req.queryParams("descrip");
+            String dateModif = req.queryParams("dateModif");
             try {
-                DAO.modifList(idList, nvTitre, nvDes);
+                DAO.modifList(idList, nvTitre, nvDes, dateModif);
             }
             catch (Exception e) {
                 return generateError("Modification liste", "500", "Impossible de modifier\n" + e.toString());
@@ -381,17 +382,20 @@ public class MainControl {
             return "";
         });
 
+        /** retourne la vue pour modifier un élément*/
         get ("/listes/:idsurList/:idElem/modifElem", (req,res) -> {
             return generateModifElem(req.params("idSurList"), req.params("idElem"));
         });
 
+        /** modification d'un élément*/
         post ("/listes/:idList/:idElem/modifElem", (req, res) -> {
             int idList = Integer.parseInt(req.params("idList"));
             int idElem = Integer.parseInt(req.params("idElem"));
             String nvTitre = req.queryParams("titre");
             String nvDes = req.queryParams("descrip");
+            String dateModif = req.queryParams("dateModif");
             try {
-                DAO.modifElem(idElem, nvTitre, nvDes);
+                DAO.modifElem(idElem, nvTitre, nvDes, dateModif);
             }
             catch (Exception e) {
                 return generateError("Modification Element", "500", "Impossible de modifier\n" + e.toString());

@@ -18,7 +18,34 @@ and open the template in the editor.
     <label for="descrip">Nouvelle description :</label><br/>
     <textarea name="descrip" id="descrip" cols="100" rows="20" placeholder="Votre super description"></textarea><br/><br/>
     <input type="image" src="../../image/plus.png" alt="Submit" width="70" height="70" id="valid"/>
+    <input type="text" name="dateModif" id="dateModif"/>
 </form>
+
+<script>
+    function dateFr() {
+        var jours = new Array("dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi");
+        var mois = new Array("janvier", "fevrier", "mars", "avril", "mai", "juin", "juillet", "aout", "septembre", "octobre", "novembre", "decembre");
+        var date = new Date();
+        var message = jours[date.getDay()] + " ";
+        message += date.getDate() + " ";
+        message += mois[date.getMonth()] + " ";
+        return message;
+    }
+
+    function heure()
+    {
+        var date = new Date();
+        var heure = date.getHours();
+        var minutes = date.getMinutes();
+        if(minutes < 10)
+            minutes = "0" + minutes;
+        return heure + "h" + minutes;
+    }
+
+    var dateModif = dateFr();
+    var heureModif = heure();
+    document.getElementById("dateModif").value = dateModif + " " + heureModif;
+</script>
 
 </body>
 </html>
