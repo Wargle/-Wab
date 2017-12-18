@@ -404,6 +404,21 @@ public class MainControl {
             return "";
         });
 
+        /** Permer de changer l'état d'un élément */
+        post("/listes/:idList/:idElem/etatElem", (req, res) -> {
+            int idList = Integer.parseInt(req.params("idList"));
+            String etat = req.queryParams("etat");
+            int idElem = Integer.parseInt((req.params("idElem")));
+            try {
+                DAO.modifEtat(idElem, etat);
+            }
+            catch (Exception e) {
+                return generateError("Modification Etat", "500", "Impossible de mettre à jour l'état\n"+ e.toString());
+            }
+            res.redirect("/listes/"+idList);
+            return "";
+        });
+
         /** page d'erreur personnalisée*/
         Spark.notFound((req, res) -> {
             return generateError("Not found", "404", "Désolaiye");

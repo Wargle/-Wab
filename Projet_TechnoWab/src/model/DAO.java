@@ -58,7 +58,7 @@ public class DAO {
     /** permets de récupérer les éléments d'une liste en fonction de son id et de celui de l'utilisateur */
     public static List<Element> getAllElementByList(String idUser, String idSurList) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "SELECT idElement, e.titre, e.idSurList, e.des, e.dateCrea, e.dateModif FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
+            final String query = "SELECT idElement, e.titre, e.idSurList, e.des, e.dateCrea, e.dateModif, e.etat FROM ELEMENT e, USERLIST l WHERE l.idSurList = e.idSurList "
                     + " AND idUser = :idU AND l.idSurList = :idL";
 
             return conn.createQuery(query)
@@ -117,7 +117,7 @@ public class DAO {
     /** permets d'ajouter un nouvel élément à une liste */
     public static void insertElement(Element e) throws Exception{
         try (Connection conn = DataBase.getInstance().open()) {
-            final String query = "INSERT INTO ELEMENT (titre, des, idSurList, dateCrea, dateModif) VALUES ( :idT, :d, :idL, :dc, :dm )";
+            final String query = "INSERT INTO ELEMENT (titre, des, idSurList, dateCrea, dateModif, etat) VALUES ( :idT, :d, :idL, :dc, :dm, :e )";
 
             conn.createQuery(query)
                     .addParameter("idT", e.getTitre())
@@ -125,6 +125,7 @@ public class DAO {
                     .addParameter("idL", e.getIdSurList())
                     .addParameter("dc", e.getDateCrea())
                     .addParameter("dm", e.getDateModif())
+                    .addParameter("e", e.getEtat())
                     .executeUpdate();
         }
     }
@@ -191,6 +192,17 @@ public class DAO {
                     .addParameter("nd", nvDes)
                     .addParameter("id", idElem)
                     .addParameter("dm", dateModif)
+                    .executeUpdate();
+        }
+    }
+
+    /** Modifie l'etat d'un élément*/
+    public static void modifEtat (int idElem, String etat) throws Exception {
+        try (Connection conn = DataBase.getInstance().open()){
+            final String query = "UPDATE ELEMENT SET ETAT=:e WHERE IDELEMENT=:id";
+            conn.createQuery(query)
+                    .addParameter("e", etat)
+                    .addParameter("id", idElem)
                     .executeUpdate();
         }
     }
